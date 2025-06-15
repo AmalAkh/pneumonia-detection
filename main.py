@@ -6,9 +6,9 @@ TRAIN_DATA_DIR = "/home/amal/Desktop/chest_xray/train"
 TEST_DATA_DIR = "/home/amal/Desktop/chest_xray/train"
 VAL_DATA_DIR = "/home/amal/Desktop/chest_xray/train"
 
-train_dataset =  PneumoniaDataset(TRAIN_DATA_DIR)
-test_dataset =  PneumoniaDataset(TEST_DATA_DIR)
-val_dataset =  PneumoniaDataset(VAL_DATA_DIR)
+train_dataset = PneumoniaDataset(TRAIN_DATA_DIR)
+test_dataset = PneumoniaDataset(TEST_DATA_DIR)
+val_dataset = PneumoniaDataset(VAL_DATA_DIR)
 
 
 

@@ -8,21 +8,24 @@ class PneumoniaDetectionModel(torch.nn.Module):
         self.loss_fn = torch.nn.BCELoss()
         
         self.conv_model = torch.nn.Sequential(
-            Conv2d(1,32, 3, padding="same"),
+            Conv2d(1,64, 3, padding="same"),
             ReLU(),
-            Conv2d(32,32, 3, padding="same"),
+            Conv2d(64,64, 3, padding="same"),
             ReLU(),
             AvgPool2d((2,2)),
-            Conv2d(32,64, 3,padding="same"),
+            Conv2d(64,128, 3,padding="same"),
             ReLU(),
-            Conv2d(64,64, 3,padding="same"),
+            Conv2d(128,128, 3,padding="same"),
             ReLU(),
-            AvgPool2d((2,2))
+            AvgPool2d((2,2)),
+            Conv2d(128,128, 1,padding="same"),
+            ReLU(),
+            
         )
         
         self.classifier = torch.nn.Sequential(
             Flatten(),
-            Linear(32*32*64,256),
+            Linear(32*32*128,256),
             ReLU(),
             Linear(256,128),
             ReLU(),
