@@ -10,8 +10,9 @@ test_dataset =  PneumoniaDataset(TEST_DATA_DIR)
 
 
 
-train_dataloader = DataLoader(train_dataset, batch_size=32)
+train_dataloader = DataLoader(train_dataset, batch_size=32, shuffle=True)
 test_dataloader = DataLoader(test_dataset, batch_size=16)
 
 model = PneumoniaDetectionModel()
 model.fit(train_dataloader)
+torch.save(model.state_dict(), "./model")

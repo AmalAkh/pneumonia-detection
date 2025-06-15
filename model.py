@@ -17,7 +17,7 @@ class PneumoniaDetectionModel(torch.nn.Module):
             ReLU(),
             Conv2d(64,64, 3,padding="same"),
             ReLU(),
-            AvgPool2d((2,2)),
+            AvgPool2d((2,2))
         )
         
         self.classifier = torch.nn.Sequential(
@@ -41,6 +41,7 @@ class PneumoniaDetectionModel(torch.nn.Module):
         self.train(True)
         for i in range(0,epochs):
             epoch_loss = 0
+            right_predictions = 0
             for batch in iter(train_loader):
                 
                 x = batch[0].to(device_name)
@@ -53,14 +54,15 @@ class PneumoniaDetectionModel(torch.nn.Module):
                 
                 epoch_loss += loss.item()
                 
-              
+                right_predictions += (output.round() == y).sum().item()
                 self.optimizer.zero_grad()
 
                 loss.backward()
                 self.optimizer.step()
-            print(len(train_loader))
-            print(f"Epoch {i+1} {epoch_loss/len(train_loader)}")
+           
+            print(f"Epoch {i+1} Loss:{epoch_loss/len(train_loader)} Accuracy:{right_predictions/len(train_loader.dataset)}")
             torch.cuda.empty_cache()
+    
         
 
 
