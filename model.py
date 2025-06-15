@@ -62,9 +62,32 @@ class PneumoniaDetectionModel(torch.nn.Module):
         print(f"Val Loss:{overall_loss/len(data_loader):.4f} Val Accracy:{right_predictions/len(data_loader.dataset):.4f}")
         
     def fit(self, train_loader, val_loader, epochs=10):
+    def evaluate(self, data_loader):
+        self.eval()
+        right_predictions = 0
+        overall_loss = 0
+        with torch.no_grad():
+            for batch in iter(data_loader):
+                
+                x = batch[0].to(device_name)
+                y = batch[1].to(device_name).float()
+
+                output = self.forward(x)
+                output = output.view(output.size(0), 1)
+                
+                loss = self.loss_fn(output, y)
+                
+                overall_loss += loss.item()
+                
+                right_predictions += (output.round() == y).sum().item()
+
+        print(f"Val Loss:{overall_loss/len(data_loader):.4f} Val Accracy:{right_predictions/len(data_loader.dataset):.4f}")
+        
+    def fit(self, train_loader, val_loader, epochs=10):
         self.train(True)
         for i in range(0,epochs):
             epoch_loss = 0
+            right_predictions = 0
             right_predictions = 0
             for batch in iter(train_loader):
                 
@@ -78,6 +101,7 @@ class PneumoniaDetectionModel(torch.nn.Module):
                 
                 epoch_loss += loss.item()
                 
+                right_predictions += (output.round() == y).sum().item()
                 right_predictions += (output.round() == y).sum().item()
                 self.optimizer.zero_grad()
 
@@ -103,7 +127,28 @@ class PneumoniaDetectionModel(torch.nn.Module):
                 
             self.train(True)
             print(f"Epoch {i+1} Loss:{epoch_loss/len(train_loader):.4f} Accuracy:{right_predictions/len(train_loader.dataset):.4f}, Val Loss:{val_epoch_loss/len(train_loader):.4f} Val Accracy:{val_right_predictions/len(val_loader.dataset):.4f}")
+            self.train(False)
+            val_epoch_loss = 0
+            val_right_predictions = 0
+            with torch.no_grad():
+                for batch in iter(val_loader):
+                    
+                    x = batch[0].to(device_name)
+                    y = batch[1].to(device_name).float()
+
+                    output = self.forward(x)
+                    output = output.view(output.size(0), 1)
+                    
+                    val_loss = self.loss_fn(output, y)
+                    
+                    val_epoch_loss += val_loss.item()
+                    
+                    val_right_predictions += (output.round() == y).sum().item()
+                
+            self.train(True)
+            print(f"Epoch {i+1} Loss:{epoch_loss/len(train_loader):.4f} Accuracy:{right_predictions/len(train_loader.dataset):.4f}, Val Loss:{val_epoch_loss/len(train_loader):.4f} Val Accracy:{val_right_predictions/len(val_loader.dataset):.4f}")
             torch.cuda.empty_cache()
+    
     
         
 
