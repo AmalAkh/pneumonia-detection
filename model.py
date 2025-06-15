@@ -60,8 +60,7 @@ class PneumoniaDetectionModel(torch.nn.Module):
                 right_predictions += (output.round() == y).sum().item()
 
         print(f"Val Loss:{overall_loss/len(data_loader):.4f} Val Accracy:{right_predictions/len(data_loader.dataset):.4f}")
-        
-    def fit(self, train_loader, val_loader, epochs=10):
+
     def evaluate(self, data_loader):
         self.eval()
         right_predictions = 0
