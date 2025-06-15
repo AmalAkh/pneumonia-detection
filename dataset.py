@@ -5,7 +5,7 @@ from torchvision.transforms import Resize
 import os
 class PneumoniaDataset(torch.utils.data.Dataset):
 
-#some local chnage
+
     
     def __init__(self, dataset_dir_path):
         super().__init__()
