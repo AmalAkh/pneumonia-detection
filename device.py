@@ -1,3 +1,3 @@
 import torch
-device_name = "mps" if torch.mps.is_available() else "cpu"
+device_name = "cuda" if torch.cuda.is_available() else "cpu"
 
