@@ -2,10 +2,10 @@ import torch
 from torch.utils.data import DataLoader
 from dataset import PneumoniaDataset
 from model import PneumoniaDetectionModel
-TRAIN_DATA_DIR = "/home/amal/Desktop/chest_xray/train"
-TEST_DATA_DIR = "/home/amal/Desktop/chest_xray/train"
-VAL_DATA_DIR = "/home/amal/Desktop/chest_xray/train"
-VAL_DATA_DIR = "/home/amal/Desktop/chest_xray/train"
+TRAIN_DATA_DIR = "/Users/amalahmadinurov/Desktop/chest_xray/train"
+TEST_DATA_DIR = "/Users/amalahmadinurov/Desktop/chest_xray/train"
+VAL_DATA_DIR = "/Users/amalahmadinurov/Desktop/chest_xray/train"
+VAL_DATA_DIR = "/Users/amalahmadinurov/Desktop/chest_xray/train"
 
 train_dataset = PneumoniaDataset(TRAIN_DATA_DIR)
 test_dataset = PneumoniaDataset(TEST_DATA_DIR)
